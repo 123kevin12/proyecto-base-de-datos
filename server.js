@@ -1,3 +1,4 @@
+//Inicializamos las dependencias
 const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
@@ -5,7 +6,6 @@ const path = require('path');
 const { Pool } = require('pg');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
-
 const app = express();
 const port = 3000; // Puerto para el servidor web
 
@@ -22,17 +22,17 @@ pool.connect((err) => {
     }
 });
 
-// Servir inicio.html como la página inicial
+// Un get para que la pagina principal sea inicio.html de la carpeta public
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'inicio.html'));
 });
 
-// Middleware para manejar datos de formulario y cookies
+// Controlador para manejar datos de formulario y cookies
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-// Configurar almacenamiento de multer
+// Configurar almacenamiento de multer para que las imagenes se guarden en la carpeta uploads
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         const uploadPath = 'uploads/';
@@ -48,15 +48,16 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// Configurar la carpeta 'public' para archivos estáticos
+// Esto es necesario para que se usen los Html dentro de la carpeta public del programa
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Ruta para manejar el envío del formulario desde index.html
+// Funcion para manejar el envío de la informacion del formulario desde index.html donde los usuarios se registran
 app.post('/submit-index', upload.single('recibo'), async (req, res) => {
     const { correo, nombre, celular, direccion, tarjeta, ntarjeta } = req.body;
     const recibo = req.file ? req.file.filename : 'No se subió archivo';
 
     try {
+        //Query para que guarde la informacion en la tabla Usuario de la base de datos
         const query = `
             INSERT INTO Usuario (CelNumero, Unombre, Uapellido, Uresidencia, Uemail, Urecibo, UtipoTarjeta, UnumTarjeta)
             VALUES ($1, $2, '', $3, $4, $5, $6, $7)
@@ -70,12 +71,13 @@ app.post('/submit-index', upload.single('recibo'), async (req, res) => {
     }
 });
 
-// Ruta para manejar el envío del formulario desde el nuevo formulario
+// Funcion para controlar el envío del formulario desde el registro de los trabajadores
 app.post('/submit', upload.single('foto'), async (req, res) => {
     const { nombre, celular, cedula, direccion, oficio } = req.body;
     const foto = req.file ? req.file.filename : 'No se subió archivo';
 
     try {
+        //Query para que guarde la informacion en la tabla Trabajador de la base de datos
         const query = `
             INSERT INTO Trabajador (IDtrabajador, Tnombre, Tapellido, TnumEstrellas, TfotoPerfil, IDimagen, Estado, Direccion)
             VALUES ($1, $2, '', 0, $3, 0, true, $4)
@@ -89,15 +91,16 @@ app.post('/submit', upload.single('foto'), async (req, res) => {
     }
 });
 
-// Sesiones temporales para usuarios y trabajadores
+// Objetos para manejar el inicio de sesion del usuario o trabajador conectado
 const userSessions = new Map();
 const workerSessions = new Map();
 
-// Ruta para manejar el inicio de sesión del usuario
+// Funcion para manejar el inicio de sesión del usuario y verificar que existe en la base de datos
 app.post('/login', async (req, res) => {
     const { name, cell, email } = req.body;
 
     try {
+        //Query necesario para la verificacion de los datos
         const query = `
             SELECT * FROM Usuario WHERE Unombre = $1 AND CelNumero = $2 AND Uemail = $3
         `;
@@ -119,11 +122,12 @@ app.post('/login', async (req, res) => {
     }
 });
 
-// Ruta para manejar el inicio de sesión del trabajador
+// Funcion para manejar el inicio de sesión del trabajador y verificar que esta en la base de datos
 app.post('/worker-login', async (req, res) => {
     const { name, id } = req.body;
 
     try {
+        //Query necesaria para verificar la informacion del trabajador
         const query = `
             SELECT * FROM Trabajador WHERE Tnombre = $1 AND IDtrabajador = $2
         `;
@@ -145,7 +149,7 @@ app.post('/worker-login', async (req, res) => {
     }
 });
 
-// Ruta para obtener la información del usuario
+// Funcion para obtener la información del usuario
 app.get('/user-info', (req, res) => {
     const sessionId = req.cookies.sessionId;
     const userInfo = userSessions.get(sessionId);
@@ -157,7 +161,7 @@ app.get('/user-info', (req, res) => {
     }
 });
 
-// Ruta para obtener la información del trabajador
+// Funcion para obtener la información del trabajador
 app.get('/worker-info', (req, res) => {
     const sessionId = req.cookies.workerSessionId;
     const workerInfo = workerSessions.get(sessionId);
@@ -168,8 +172,6 @@ app.get('/worker-info', (req, res) => {
         res.json({ success: false });
     }
 });
-
-
 
 // Iniciar el servidor
 app.listen(port, () => {
