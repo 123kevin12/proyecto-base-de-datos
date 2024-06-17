@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #3a1a66;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            width: 400px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .container h2 {
+            margin-top: 0;
+            color: #fff;
+            background-color: #3a1a66;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .form-group input[type="file"] {
+            padding: 0;
+        }
+        .button {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .button button {
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 30px;
+            transition: background 0.5s;
+        }
+        .button button:hover {
+            background: linear-gradient(to right, #ff4b2b, #ff416c);
+        }
+        .back-button {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .back-button a {
+            background: linear-gradient(to right, #3a1a66, #4b2bff);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 30px;
+            transition: background 0.5s;
+        }
+        .back-button a:hover {
+            background: linear-gradient(to right, #4b2bff, #3a1a66);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Registrarse</h2>
+    <form id="userForm" action="/submit-index" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="correo">Correo electronico:</label>
+            <input type="text" id="correo" name="correo" required>
+        </div>
+        <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+        </div>
+        <div class="form-group">
+            <label for="celular">Celular:</label>
+            <input type="text" id="celular" name="celular" required>
+        </div>
+        <div class="form-group">
+            <label for="recibo">Recibo:</label>
+            <input type="file" id="recibo" name="recibo" required>
+        </div>
+        <div class="form-group">
+            <label for="direccion">Dirección:</label>
+            <input type="text" id="direccion" name="direccion" required>
+        </div>
+        <div class="form-group">
+            <label for="tarjeta">tipo de tarjeta:</label>
+            <input type="text" id="tarjeta" name="tarjeta" required>
+        </div>
+        <div class="form-group">
+            <label for="ntarjeta">numero de tarjeta:</label>
+            <input type="text" id="ntarjeta" name="ntarjeta" required>
+        </div>
+        <div class="button">
+            <button type="submit">Registrarse</button>
+        </div>
+    </form>
+    <div class="back-button">
+        <a href="inicio.html">Volver al inicio</a>
+    </div>
+</div>
+
+</body>
+</html>
+

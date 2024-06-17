@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #4B0082;
+        }
+        .banner {
+            background-color: #4B0082;
+            color: white;
+            padding: 10px;
+            text-align: left;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .banner img {
+            height: 40px;
+        }
+        .banner .user {
+            margin-right: 20px;
+        }
+        .content {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            margin: 20px;
+        }
+        .content img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+        }
+        .content h1 {
+            margin: 20px 0;
+        }
+        .info-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .info, .buttons {
+            background-color: #9110BB;
+            border-radius: 10px;
+            padding: 10px;
+            color: white;
+        }
+        .info h2, .buttons button {
+            background-color: #7801CA;
+            padding: 10px;
+            margin: 0;
+            border-radius: 10px 10px 0 0;
+        }
+        .button {
+            background: linear-gradient(to right, #FF4B2B, #FF416C);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .button.info {
+            background-color: #FF5F7E;
+        }
+        .map {
+            width: 60%;
+            height: 60%;
+            max-width: 1000px;
+            max-height: 1000px;
+            text-align: center;
+        }
+        .map img {
+            width: 80%;
+            max-width: 1200px;
+            max-height: 1200px;
+            border-radius: 10px;
+        }
+        .services{
+            display: flex;
+            flex-direction: row;  
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">
+        <img src="images/logo.png" alt="logo">
+        <span class="trabajador">trabajador.nombre</span>
+        <a href="inicio.html" class="button">cerrar sesion</a>
+    </div>
+    <div class="content">
+        <img src="images/banner.png" alt="banner">
+        <a href="#" class="button">buscar cliente</a>
+        </div>
+        <div class="services">
+            <div class="map">
+                <img src="images/mapa.avif" alt="mapa">
+            </div>
+            <div class="info-container">
+                <div class="info">
+                    <h2>Cliente</h2>
+                    <p><strong>Nombre:</strong> </p>
+                    <p><strong>Dirección:</strong> </p>
+                    <a href="#" class="button">llamar</a>
+                </div>
+                <div class="info">
+                    <h2>Descripción del trabajo</h2>
+                    <p>busca a un cliente primero</p>
+                </div>
+                <div class="btn">
+                    <a href="#" class="button">cancelar trabajo</a>
+                    <a href="#" class="button">servicio tecnico</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Solicitar la información del trabajador al cargar la página
+        window.onload = function() {
+            fetch('/worker-info')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.querySelector('.trabajador').textContent = data.name;
+                    } else {
+                        console.error('Error al obtener la información del trabajador');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al realizar la solicitud:', error);
+                });
+        };
+    </script>
+</body>
+</html>

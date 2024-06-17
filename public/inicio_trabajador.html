@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Inicio de Sesión</title>
+    <style>
+        body {
+            background-color: #1E0B52;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #5c04f5;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            width: 300px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ECECEC;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .btn {
+            background: linear-gradient(to right, #FF4B2B, #FF416C);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .btn-volver {
+            background: linear-gradient(to right, #654EA3, #EAAFc8);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mande</h1>
+        <h2>Inicio de sesión:</h2>
+        <form action="/worker-login" method="POST">
+            <div class="form-group">
+                <label for="name">Nombre:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="id">Cédula:</label>
+                <input type="text" id="id" name="id" required>
+            </div>
+            <div class="btn-container">
+                <a href="inicio.html" class="btn btn-volver">Volver</a>
+                <button type="submit" class="btn">Iniciar Sesión</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

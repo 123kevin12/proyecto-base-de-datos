@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #4B0082;
+        }
+        .banner {
+            background-color: #4B0082;
+            color: white;
+            padding: 10px;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .banner img {
+            height: 40px;
+        }
+        .banner .user {
+            margin-right: 20px;
+        }
+        .logout-button {
+            background-color: #ffffff;
+            color: #4B0082;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .content {
+            text-align: center;
+            margin: 20px;
+        }
+        .content img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+        }
+        .content h1 {
+            margin: 20px 0;
+        }
+        .services {
+            display: flex;
+            justify-content: center;
+            margin: 20px;
+        }
+        .lists-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-right: 20px;
+        }
+        .list {
+            background-color: #2b04db;
+            padding: 20px;
+            color: white;
+            width: 300px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .list ul {
+            list-style: none;
+            padding: 0;
+        }
+        .list ul li {
+            background-color: white;
+            color: black;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .map {
+            width: 60%;
+            height: 60%;
+            max-width: 1000px;
+            max-height: 1000px;
+            text-align: center;
+        }
+        .map img {
+            width: 100%;
+            max-width: 1200px;
+            max-height: 1200px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">
+        <img src="images/logo.png" alt="Logo">
+        <div>
+            <span class="user">Usuario.correo</span>
+            <a href="inicio.html" class="logout-button">Cerrar sesión</a>
+        </div>
+    </div>
+    <div class="content">
+        <img src="images/banner.png" alt="Banner Image">
+        <div class="services">
+            <div class="lists-container">
+                <div class="list">
+                    <h2>Lista de servicios:</h2>
+                    <ul>
+                        <li onclick="fetchWorkers('Cocinero')">Cocinero</li>
+                        <li onclick="fetchWorkers('Cuidador de perros')">Cuidador de perros</li>
+                        <li onclick="fetchWorkers('Mecánico')">Mecanico</li>
+                        <li onclick="fetchWorkers('Plomero')">Plomero</li>
+                    </ul>
+                </div>
+                <div class="list">
+                    <h2>Lista de trabajadores:</h2>
+                    <ul id="worker-list">
+                        <!-- Worker names will be dynamically inserted here -->
+                    </ul>
+                </div>
+            </div>
+            <div class="map">
+                <img src="images/mapa.avif" alt="Map">
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/user-info')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.querySelector('.user').textContent = data.email;
+                    } else {
+                        console.error('Error al obtener la información del usuario');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
+
+        function fetchWorkers(service) {
+            fetch(`/workers?service=${service}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const workerList = document.getElementById('worker-list');
+                        workerList.innerHTML = ''; // Clear the current list
+                        data.workers.forEach(worker => {
+                            const li = document.createElement('li');
+                            li.textContent = worker;
+                            workerList.appendChild(li);
+                        });
+                    } else {
+                        console.error('Error al obtener los trabajadores');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

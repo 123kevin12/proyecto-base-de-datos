@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fallo al inicio de Sesion</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #3a1a66;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            width: 400px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .container h2 {
+            color: #3a1a66;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>fallo al iniciar Sesion</h2>
+    <p>no se ha podido iniciar sesion con los credenciales proporcionados</p>
+    <button onclick="goBack()">volver a inicio</button>
+</div>
+
+<script>
+    alert('fallo de inicio');
+
+    function goBack() {
+        window.location.href = 'inicio.html';
+    }
+</script>
+
+</body>
+</html>
