@@ -173,6 +173,30 @@ app.get('/worker-info', (req, res) => {
     }
 });
 
+// funcion para que aparezcan los trabajadores con el oficio que se necesita
+app.get('/workers', async (req, res) => {
+    const service = req.query.service;
+
+    try {
+        const query = `
+            SELECT Tnombre FROM Trabajador
+            WHERE Oficio = $1
+        `;
+        const values = [service];
+        const result = await pool.query(query, values);
+
+        if (result.rows.length > 0) {
+            const workers = result.rows.map(row => row.tnombre);
+            res.json({ success: true, workers });
+        } else {
+            res.json({ success: false, workers: [] });
+        }
+    } catch (err) {
+        console.error('Error al obtener los trabajadores:', err);
+        res.status(500).json({ success: false, error: 'Error al obtener los trabajadores' });
+    }
+});
+
 // Iniciar el servidor
 app.listen(port, () => {
     console.log(`Servidor corriendo en http://localhost:${port}`);
